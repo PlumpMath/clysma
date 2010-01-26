@@ -5,7 +5,7 @@ A Tool to See What's Inside
 ---------------------------
 
 This is nothing more than an example of using
-[`cl-gtk2`](http://common-lisp.net/project/cl-gtk2/) for now and a
+[cl-gtk2](http://common-lisp.net/project/cl-gtk2/) for now and a
 little experiment to see what kind of information I can pull from a
 running CL session.
 
