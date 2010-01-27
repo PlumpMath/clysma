@@ -14,22 +14,30 @@
 ;;; Functions
 
 (defun trawl-classes ()
-  (loop with classes = '()
-        for class in (closer-mop:class-direct-subclasses (find-class t))
-        do (push (list :class class
-                       :name (mkstr (class-name class))
-                       :package (class-package-name class))
-                 classes)
-        finally (return (sort classes #'string-lessp
-                              :key (lambda (class) (getf class :name))))))
+  (labels ((subclasses (class)
+             (let* ((name (mkstr (class-name class)))
+                    (package (class-package-name class))
+                    (subclasses (closer-mop:class-direct-subclasses class)))
+               (if subclasses
+                   (append (list (list :class class :name name
+                                       :package package))
+                           (loop for subclass in subclasses
+                                 append (subclasses subclass)))
+                   (list (list :class class :name name :package package))))))
+    (let ((subclasses (closer-mop:class-direct-subclasses (find-class t))))
+      (sort (remove-duplicates (loop for subclass in subclasses
+                                     append (subclasses subclass))
+                               :test #'equal)
+            #'string-lessp
+            :key (lambda (class) (getf class :name))))))
 
 
 (defun trawl-packages ()
   (loop with packages = '()
         for pkg in (list-all-packages)
         do (push (list :package pkg
-                       ;; XXX: copy-seq necessary?
                        :name (package-name pkg)
+                       ;; XXX: copy-seq necessary?
                        :nicknames (sort (copy-seq (package-nicknames pkg))
                                         #'string-lessp))
                  packages)
@@ -37,13 +45,19 @@
                               :key (lambda (package) (getf package :name))))))
 
 
-(defun trawl-symbols ()
+(defun trawl-symbols (&optional (package nil))
   (let ((symbols nil))
-    (do-all-symbols (symbol)
-      (push (list :symbol symbol
-                  :name (symbol-name symbol)
-                  :package (package-name (symbol-package symbol)))
-            symbols))
+    (if package
+        (do-symbols (symbol package)
+          (push (list :symbol symbol
+                      :name (symbol-name symbol)
+                      :package (package-name (symbol-package symbol)))
+                symbols))
+        (do-all-symbols (symbol)
+          (push (list :symbol symbol
+                      :name (symbol-name symbol)
+                      :package (package-name (symbol-package symbol)))
+                symbols)))
     (sort symbols #'string-lessp :key (lambda (symbol) (getf symbol :name)))))
 
 

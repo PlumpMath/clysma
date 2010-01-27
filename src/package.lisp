@@ -10,4 +10,4 @@
 
 
 (defpackage :clysma
-  (:use :cl :asdf))
+  (:use :cl))
