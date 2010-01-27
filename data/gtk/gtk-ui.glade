@@ -38,28 +38,6 @@
       </row>
     </data>
   </object>
-  <object class="GtkListStore" id="symbols-liststr">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name package -->
-      <column type="gchararray"/>
-      <!-- column-name type -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">test-1</col>
-        <col id="1" translatable="yes">test-package-1</col>
-        <col id="2" translatable="yes">atom</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">test-2</col>
-        <col id="1" translatable="yes">test-package-2</col>
-        <col id="2" translatable="yes">function</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkListStore" id="classes-liststr">
     <columns>
       <!-- column-name name -->
@@ -74,6 +52,38 @@
       </row>
       <row>
         <col id="0" translatable="yes">test-class-2</col>
+        <col id="1" translatable="yes">test-package-2</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="symbols-combobox-liststr">
+    <columns>
+      <!-- column-name package-name -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">test-package-1</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">test-package-2</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="symbols-liststr">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name package -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">test-1</col>
+        <col id="1" translatable="yes">test-package-1</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">test-2</col>
         <col id="1" translatable="yes">test-package-2</col>
       </row>
     </data>
@@ -112,6 +122,7 @@
                         <signal name="row_activated" handler="on_classes-treeview_row_activated"/>
                         <child>
                           <object class="GtkTreeViewColumn" id="classes-name-col">
+                            <property name="resizable">True</property>
                             <property name="title">name</property>
                             <property name="sort_indicator">True</property>
                             <property name="sort_column_id">0</property>
@@ -206,8 +217,8 @@
                         <signal name="row_activated" handler="on_packages-treeview_row_activated"/>
                         <child>
                           <object class="GtkTreeViewColumn" id="packages-name-col">
+                            <property name="resizable">True</property>
                             <property name="title">name</property>
-                            <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
                             <property name="sort_column_id">0</property>
                             <child>
@@ -221,7 +232,6 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="packages-nicks-col">
                             <property name="title">nicknames</property>
-                            <property name="clickable">True</property>
                             <property name="sort_column_id">1</property>
                             <child>
                               <object class="GtkCellRendererText" id="packages-nicks-cell"/>
@@ -303,8 +313,16 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox" id="combobox1">
+                      <object class="GtkComboBox" id="symbols-combobox">
                         <property name="visible">True</property>
+                        <property name="model">symbols-combobox-liststr</property>
+                        <signal name="changed" handler="on_symbols-combobox_changed"/>
+                        <child>
+                          <object class="GtkCellRendererText" id="symbols-combobox-cell"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -328,6 +346,8 @@
                         <property name="can_focus">True</property>
                         <property name="model">symbols-liststr</property>
                         <property name="search_column">0</property>
+                        <signal name="cursor_changed" handler="on_symbols-treeview_cursor_changed"/>
+                        <signal name="row_activated" handler="on_symbols-treeview_row_activated"/>
                         <child>
                           <object class="GtkTreeViewColumn" id="symbols-name-col">
                             <property name="title">name</property>
@@ -356,25 +376,43 @@
                             </child>
                           </object>
                         </child>
-                        <child>
-                          <object class="GtkTreeViewColumn" id="symbols-type-col">
-                            <property name="title">type</property>
-                            <property name="clickable">True</property>
-                            <property name="sort_indicator">True</property>
-                            <property name="sort_column_id">2</property>
-                            <child>
-                              <object class="GtkCellRendererText" id="symbols-type-cell"/>
-                              <attributes>
-                                <attribute name="text">2</attribute>
-                              </attributes>
-                            </child>
-                          </object>
-                        </child>
                       </object>
                     </child>
                   </object>
                   <packing>
                     <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkHSeparator" id="hseparator4">
+                    <property name="visible">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="padding">1</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow" id="scrolledwindow8">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="hscrollbar_policy">automatic</property>
+                    <property name="vscrollbar_policy">automatic</property>
+                    <child>
+                      <object class="GtkTextView" id="symbols-textview">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="editable">False</property>
+                        <property name="left_margin">8</property>
+                        <property name="right_margin">8</property>
+                        <property name="cursor_visible">False</property>
+                        <property name="buffer">symbols-textbuffer</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
@@ -412,6 +450,7 @@
                         <signal name="row_activated" handler="on_threads-treeview_row_activated"/>
                         <child>
                           <object class="GtkTreeViewColumn" id="threads-name-col">
+                            <property name="resizable">True</property>
                             <property name="title">name</property>
                             <property name="sort_indicator">True</property>
                             <property name="sort_column_id">0</property>
@@ -540,11 +579,11 @@ Clysma - A Tool to See What's Inside
 
 This is a little experiment to see what kind of information I can get out of a running Lisp session.
 
-Double-click on a row in the Classes, Packages or Threads tab for  more information.
-
-The Symbols tab has been disabled for now because it was too slow.</property>
+Double-click on a row in one of the tabs for more information.
+</property>
   </object>
   <object class="GtkTextBuffer" id="packages-textbuffer"/>
   <object class="GtkTextBuffer" id="threads-textbuffer"/>
   <object class="GtkTextBuffer" id="classes-textbuffer"/>
+  <object class="GtkTextBuffer" id="symbols-textbuffer"/>
 </interface>
