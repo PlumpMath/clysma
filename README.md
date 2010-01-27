@@ -1,6 +1,10 @@
 Clysma
 ======
 
+*note: this package has so far been tested and developed only on SBCL
+ on Linux*
+
+
 A Tool to See What's Inside
 ---------------------------
 
@@ -14,9 +18,8 @@ output for that row.
 
 Also the progress bar at the bottom is not used yet.
 
+
 Screenshot
 ----------
 
-<p align="center">
-  <img src="http://www.aerique.net/software/clysma/clysma-20100127.jpg">
-</p>
+<img src="http://www.aerique.net/software/clysma/clysma-20100127.jpg">
