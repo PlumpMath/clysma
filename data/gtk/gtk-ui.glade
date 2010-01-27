@@ -350,8 +350,8 @@
                         <signal name="row_activated" handler="on_symbols-treeview_row_activated"/>
                         <child>
                           <object class="GtkTreeViewColumn" id="symbols-name-col">
+                            <property name="resizable">True</property>
                             <property name="title">name</property>
-                            <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
                             <property name="sort_column_id">0</property>
                             <child>
@@ -365,7 +365,6 @@
                         <child>
                           <object class="GtkTreeViewColumn" id="symbols-package-col">
                             <property name="title">package</property>
-                            <property name="clickable">True</property>
                             <property name="sort_indicator">True</property>
                             <property name="sort_column_id">1</property>
                             <child>
