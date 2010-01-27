@@ -13,3 +13,10 @@ Double-click on a row in one of the tabs to get the `#'describe`
 output for that row.
 
 Also the progress bar at the bottom is not used yet.
+
+Screenshot
+----------
+
+<p align="center">
+  <img src="http://www.aerique.net/software/clysma/clysma-20100127.jpg">
+</p>
