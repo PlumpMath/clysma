@@ -16,7 +16,8 @@
   (defun apply-gtk-enema ()
     (gtk:within-main-loop-and-wait
       (let ((builder-instance (make-instance 'gtk:builder)))
-        (gtk:builder-add-from-file builder-instance "data/gtk/gtk-ui.glade")
+        (gtk:builder-add-from-file builder-instance
+                        (system-relative-path :clysma "data/gtk/gtk-ui.glade"))
         (setf builder builder-instance))
       (gtk:builder-connect-signals-simple builder
         `(;; we'll want to use this in the future instead of row_activated

@@ -76,6 +76,10 @@
   (cl-user::quit))
 
 
+(defun system-relative-path (system &optional (relative-path ""))
+  (namestring (asdf:system-relative-pathname system relative-path)))
+
+
 (defun verbose (msg)
   (format *standard-output* "~&D: ~A~%" msg))
 
