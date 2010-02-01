@@ -2,9 +2,6 @@
 
 ## A Tool to See What's Inside
 
-*note: this package has so far been tested and developed only on SBCL
- on Linux*
-
 
 ### Introduction
 
