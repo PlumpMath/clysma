@@ -1,5 +1,11 @@
 # Clysma
 
+**status:** unknown
+
+It's a reasonable example of using cl-gtk2 and Glade but I'm not sure
+if I'll ever work on it again.
+
+
 ## A Tool to See What's Inside
 
 
